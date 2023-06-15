@@ -44,7 +44,7 @@ class UserService {
       password: password,
       firstName: firstName,
       lastName: lastName,
-      company: company,
+      company: company ? company : undefined,
     });
   }
 
