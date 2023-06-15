@@ -48,37 +48,29 @@ const Register = () => {
   }, []);
 
   useEffect(() => {
-    const result = NAME_REGEX.test(firstName);
-    // console.log(result);
-    // console.log(firstName);
-    setValidFirstName(result);
-    // setValidFirstName(NAME_REGEX.test(firstName));
+    // const result = NAME_REGEX.test(firstName);
+    // setValidFirstName(result);
+    setValidFirstName(NAME_REGEX.test(firstName));
   }, [firstName]);
 
   useEffect(() => {
-    const result = NAME_REGEX.test(lastName);
-    // console.log(result);
-    // console.log(lastName);
-    setValidLastName(result);
-    // setValidLastName(NAME_REGEX.test(lastName));
+    // const result = NAME_REGEX.test(lastName);
+    // setValidLastName(result);
+    setValidLastName(NAME_REGEX.test(lastName));
   }, [lastName]);
 
   useEffect(() => {
-    const result = EMAIL_REGEX.test(email);
-    // console.log(result);
-    // console.log(email);
-    setValidEmail(result);
-    // setValidEmail(EMAIL_REGEX.test(email));
+    // const result = EMAIL_REGEX.test(email);
+    // setValidEmail(result);
+    setValidEmail(EMAIL_REGEX.test(email));
   }, [email]);
 
   useEffect(() => {
-    const result = PWD_REGEX.test(pwd);
-    // console.log(result);
-    // console.log(pwd);
-    setValidPwd(result);
+    // const result = PWD_REGEX.test(pwd);
+    // setValidPwd(result);
+    setValidPwd(PWD_REGEX.test(pwd));
     const match = pwd === matchPwd;
     setValidMatch(match);
-    // setValidPwd(PWD_REGEX.test(pwd));
   }, [pwd, matchPwd]);
 
   useEffect(() => {
@@ -103,7 +95,13 @@ const Register = () => {
       return;
     }
     try {
-      const res = await UserService.register(email, pwd, firstName, lastName, company)
+      const res = await UserService.register(
+        email,
+        pwd,
+        firstName,
+        lastName,
+        company
+      );
       console.log('res.data: ', res.data);
       console.log('res.user', res.data.user);
       console.log('res.accessToken', res.data.tokens.access);
@@ -312,7 +310,7 @@ const Register = () => {
         </p>
 
         <button
-          className='btn bg-slate-400 text-white'
+          className='text-white btn bg-slate-400'
           disabled={
             !validFirstName ||
             !validLastName ||
