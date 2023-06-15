@@ -7,12 +7,11 @@ import {
   faTimes,
   faInfoCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import axios from '@/api/axios';
+import UserService from '@/services/UserService';
 
 const NAME_REGEX = /^[A-z][A-z-']{1,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-const REGISTER_URL = '/auth/register';
 
 const Register = () => {
   const userRef = useRef();
@@ -103,22 +102,11 @@ const Register = () => {
       setErrMsg('Passwords do not match');
       return;
     }
-    const params = {};
-    params.firstName = firstName;
-    params.lastName = lastName;
-    if (company !== '') params.company = company;
-    params.email = email;
-    params.password = pwd;
-
     try {
-      const res = await axios.post(REGISTER_URL, JSON.stringify(params), {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      });
+      const res = await UserService.register(email, pwd, firstName, lastName, company)
       console.log('res.data: ', res.data);
-      console.log('res.accessToken', res.accessToken);
+      console.log('res.user', res.data.user);
+      console.log('res.accessToken', res.data.tokens.access);
     } catch (err) {
       if (!err.response) {
         setErrMsg('No server response');
