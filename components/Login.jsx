@@ -6,7 +6,6 @@ import AuthContext from '@/app/context/AuthProvider';
 import UserService from '@/services/UserService';
 
 const Login = () => {
-  const setAuth = useContext(AuthContext);
   const userEmailRef = useRef();
   const errRef = useRef();
 
@@ -24,18 +23,16 @@ const Login = () => {
   }, [userEmail, password]);
 
   const handleSubmit = async (e) => {
+    console.log("handling submit");
     e.preventDefault();
 
     try {
-      const res = await UserService.login(email, password);
+      console.log(userEmail);
+      console.log(password);
+      const res = await UserService.login(userEmail, password);
       console.log(res);
-      console.log(res?.data);
-      console.log(res?.data?.token);
-      console.log(res?.data?.roles);
-      const token = res?.data?.token;
-      const roles = res?.data?.roles;
-      setAuth({ userEmail, password, roles, token });
-      setUser('');
+      console.log(res?.role);
+      setUserEmail('');
       setPassword('');
       // setSuccess(true);
     } catch (err) {
