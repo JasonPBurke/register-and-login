@@ -6,6 +6,7 @@ import AuthContext from '@/app/context/AuthProvider';
 import UserService from '@/services/UserService';
 
 const Login = () => {
+  const {setAuth} = useContext(AuthContext);
   const userEmailRef = useRef();
   const errRef = useRef();
 
@@ -29,9 +30,10 @@ const Login = () => {
     try {
       console.log(userEmail);
       console.log(password);
-      const res = await UserService.login(userEmail, password);
-      console.log(res);
-      console.log(res?.role);
+      const user = await UserService.login(userEmail, password);
+      console.log(user);
+      console.log(user?.role);
+      setAuth(user);
       setUserEmail('');
       setPassword('');
       // setSuccess(true);
